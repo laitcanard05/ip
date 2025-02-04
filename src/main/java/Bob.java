@@ -13,6 +13,10 @@ public class Bob {
         System.out.println("Hello! I'm Bob!\nWhat can I do for you?");
         line = in.nextLine();
 
+        while (!line.equalsIgnoreCase("bye")) {
+            System.out.println(line);
+            line = in.nextLine();
+        }
         System.out.println("Bye. Hope to see you again soon!");
     }
 
