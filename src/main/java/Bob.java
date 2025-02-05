@@ -4,9 +4,13 @@ public class Bob {
     public static void main(String[] args) {
         String line;
         String[] tasks = new String[100];
-        int[] taskIsDone = new int[100];
+        String taskName;
+        Boolean[] taskIsDone = new Boolean[100];
+        String taskType;
+        char[] tasksType = new char[100];
+        String dueDate, startDateTime, endDateTime;
         for (int i = 0; i < 100; i++) {
-            taskIsDone[i] = 0;
+            taskIsDone[i] = false;
         }
         int taskIndex = 0;
         int markIndex = -1;
@@ -25,35 +29,52 @@ public class Bob {
             if (line.equalsIgnoreCase("list")) {
                 System.out.println("Here are the tasks in your list:");
                 for (int i = 0; i < taskIndex; i++) {
-                    if (taskIsDone[i] == 0) {
-                        System.out.println((i + 1) + ". [ ] " + tasks[i]);
-                    } else {
-                        System.out.println((i + 1) + ". [X] " + tasks[i]);
-                    }
+                    System.out.println((i + 1) + ". [" + tasksType[i]  + "]" + (taskIsDone[i] ? "[X] " : "[ ] ") + tasks[i]);
                 }
-            } else if (line.contains("unmark")) {
+            } else if (line.startsWith("unmark")) {
                 String[] lineWords = line.split(" ");
                 unmarkIndex = Integer.parseInt(lineWords[lineWords.length-1]) - 1;
-                if (taskIsDone[unmarkIndex] == 1) {
-                    taskIsDone[unmarkIndex] = 0;
-                    System.out.println("Ok, I've marked this task as not done yet:\n[ ] " + tasks[markIndex]);
+                if (taskIsDone[unmarkIndex]) {
+                    taskIsDone[unmarkIndex] = false;
+                    System.out.println("Ok, I've marked this task as not done yet:\n[" + tasksType[markIndex] + "][ ] " + tasks[markIndex]);
                 } else {
                     System.out.println("Task is already marked as not done.");
                 }
 
-            } else if (line.contains("mark")) {
+            } else if (line.startsWith("mark")) {
                 String[] lineWords = line.split(" ");
                 markIndex = Integer.parseInt(lineWords[lineWords.length-1]) - 1;
-                if (taskIsDone[markIndex] == 0) {
-                    taskIsDone[markIndex] = 1;
-                    System.out.println("Nice! I've marked this task as done:\n[X] " + tasks[markIndex]);
+                if (!taskIsDone[markIndex]) {
+                    taskIsDone[markIndex] = true;
+                    System.out.println("Nice! I've marked this task as done:\n[" + tasksType[markIndex] + "][X] " + tasks[markIndex]);
                 } else {
                     System.out.println("Task is already marked as done.");
                 }
             } else {
-                tasks[taskIndex] = line;
+                taskType = line.split(" ")[0];
+                taskName = line.substring(line.indexOf(" ")+1);
+                if (taskType.equalsIgnoreCase("todo")) {
+                    tasksType[taskIndex] = 'T';
+                    tasks[taskIndex] = taskName;
+                } else if (taskType.equalsIgnoreCase("deadline")) {
+                    tasksType[taskIndex] = 'D';
+                    dueDate = line.substring(line.indexOf("/")+4);
+                    taskName = line.substring(0, line.indexOf("/")).trim();
+                    taskName += " (by: " + dueDate + ")";
+                    tasks[taskIndex] = taskName;
+                } else if (taskType.equalsIgnoreCase("event")) {
+                    tasksType[taskIndex] = 'E';
+                    int indexOfWordFrom = (line.indexOf("/from"));
+                    int indexOfWordTo = (line.indexOf("/to"));
+                    startDateTime = line.substring(indexOfWordFrom+6, indexOfWordTo).trim();
+                    endDateTime = line.substring(indexOfWordTo+4).trim();
+                    taskName = line.substring(0, indexOfWordFrom).trim();
+                    taskName += " (from: " + startDateTime + " to: " + endDateTime + ")";
+                    tasks[taskIndex] = taskName;
+                }
+                System.out.println("Got it. I've added this task:\n\t[" + tasksType[taskIndex] + "][ ] " + tasks[taskIndex]);
                 taskIndex++;
-                System.out.println("added: " + line);
+                System.out.println("Now you have " + taskIndex + " tasks in your list.");
             }
             line = in.nextLine();
         }
