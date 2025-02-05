@@ -1,0 +1,8 @@
+todo gea tutorial
+deadline cg2023 assignment /by 10 Feb
+event FOC /from 29 July /to 1 August
+todo sweep and mop room
+list
+mark 1
+mark 3
+list
