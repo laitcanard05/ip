@@ -1,4 +1,6 @@
-public class Deadline extends Task{
+package bob.function;
+
+public class Deadline extends Task {
     protected String dueDate;
 
     Deadline(String name, String dueDate){
