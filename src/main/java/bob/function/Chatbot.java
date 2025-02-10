@@ -1,3 +1,6 @@
+package bob.function;
+import bob.exceptions.*;
+
 public class Chatbot {
     protected String outputMessage;
     protected Task[] taskList;
@@ -62,7 +65,7 @@ public class Chatbot {
         case "Missing Description":
             outputMessage = "The description of the command is missing. Please try again.";
             break;
-        case "Task Does Not Exist":
+        case "bob.function.Task Does Not Exist":
             outputMessage = "The task is not found. Please try again.";
             break;
         case "Already Marked As Done":

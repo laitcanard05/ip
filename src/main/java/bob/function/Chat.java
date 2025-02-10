@@ -1,4 +1,6 @@
+package bob.function;
 import java.util.Scanner;
+import bob.exceptions.*;
 
 public class Chat {
     public static void main(String[] args) {
@@ -17,7 +19,7 @@ public class Chat {
                 Bob.setErrorMessage("Missing Description");
             }
             catch (NullPointerException e) {
-                Bob.setErrorMessage("Task Does Not Exist");
+                Bob.setErrorMessage("bob.function.Task Does Not Exist");
             }
             catch (AlreadyDoneException e) {
                 Bob.setErrorMessage("Already Marked As Done");

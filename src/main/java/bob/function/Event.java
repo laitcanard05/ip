@@ -1,3 +1,5 @@
+package bob.function;
+
 public class Event extends Task {
     protected String start;
     protected String end;
