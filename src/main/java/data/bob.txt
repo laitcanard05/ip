@@ -1,0 +1,4 @@
+T | O | read book
+D | O | return book | Sunday
+E | X | bookfest | Sat | Sun
+T | X | eat lunch

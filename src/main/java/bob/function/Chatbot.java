@@ -57,6 +57,20 @@ public class Chatbot {
         }
     }
 
+    public String getTaskListAsText() {
+        String taskListAsText = "";
+        for (int i = 0; i < numTasks; i++) {
+            if (taskList[i] instanceof Todo) {
+                taskListAsText += "T | " + (taskList[i].getDone() ? "X | " : "O | ") + taskList[i].getName() + "\n";
+            } else if (taskList[i] instanceof Deadline) {
+                taskListAsText += "D | " + (taskList[i].getDone() ? "X | " : "O | ") + taskList[i].getName() + " | " + ((Deadline) taskList[i]).getDueDate() + "\n";
+            } else if (taskList[i] instanceof Event) {
+                taskListAsText += "E | " + (taskList[i].getDone() ? "X | " : "O | ") + taskList[i].getName() + " | " + ((Event) taskList[i]).getStart() + " | " + ((Event) taskList[i]).getEnd() + "\n";
+            }
+        }
+        return taskListAsText;
+    }
+
     public void setErrorMessage(String errorType) {
         switch(errorType) {
         case "Unknown Command":
@@ -65,7 +79,7 @@ public class Chatbot {
         case "Missing Description":
             outputMessage = "The description of the command is missing. Please try again.";
             break;
-        case "bob.function.Task Does Not Exist":
+        case "Task Does Not Exist":
             outputMessage = "The task is not found. Please try again.";
             break;
         case "Already Marked As Done":
@@ -77,14 +91,21 @@ public class Chatbot {
         case "Missing Date Or Time":
             outputMessage = "There are missing dates or times in the description. Please try again.";
             break;
+        case "Save Failed":
+            outputMessage = "There were some problems saving the updated list. Please try again.";
+            break;
+        default:
+            break;
         }
     }
 
-    public void processInput(String userInput) throws MissingDescriptionException, UnknownCommandException, AlreadyDoneException, AlreadyUndoneException, NullPointerException, StringIndexOutOfBoundsException {
+    public void processInput(String userInput) throws MissingDescriptionException, UnknownCommandException, AlreadyDoneException, AlreadyUndoneException, NullPointerException, StringIndexOutOfBoundsException, ArrayIndexOutOfBoundsException {
         String command = userInput.split(" ")[0].trim().toLowerCase();
-        if (command.equals("list")) {
+        switch (command) {
+        case "list":
             setMessage("list");
-        } else if (command.equals("mark")) {
+            break;
+        case "mark":
             if (userInput.trim().split(" ").length < 2) {
                 throw new MissingDescriptionException();
             }
@@ -94,41 +115,81 @@ public class Chatbot {
             }
             taskList[taskToMark - 1].setDone(true);
             setMessage("mark", taskToMark-1);
-        } else if (command.equals("unmark")) {
+            break;
+        case "unmark":
             if (userInput.trim().split(" ").length < 2) {
                 throw new MissingDescriptionException();
             }
-            int taskToMark = Integer.parseInt(userInput.trim().split(" ")[1]);
+            taskToMark = Integer.parseInt(userInput.trim().split(" ")[1]);
             if (!taskList[taskToMark - 1].getDone()) {
                 throw new AlreadyUndoneException();
             }
             taskList[taskToMark-1].setDone(false);
             setMessage("unmark", taskToMark-1);
-        } else if (command.equals("todo") || command.equals("deadline") || command.equals("event")) {
+            break;
+        case "todo":
+        case "deadline":
+        case "event":
             if (userInput.trim().split(" ").length < 2) {
                 throw new MissingDescriptionException();
             }
             addTask(userInput);
             setMessage("add task", numTasks-1);
-        } else {
+            break;
+        default:
             throw new UnknownCommandException();
         }
     }
 
     public void addTask(String userInput) {
         Task newTask;
-        if (userInput.trim().toLowerCase().startsWith("todo")) {
+        String command = userInput.split(" ")[0].trim().toLowerCase();
+        switch (command) {
+        case "todo":
             String newTaskName = userInput.substring(userInput.indexOf(" ")+1);
             newTask = new Todo(newTaskName);
-        } else if (userInput.trim().toLowerCase().startsWith("deadline")) {
-            String newTaskName = userInput.substring(userInput.indexOf(" ")+1, userInput.indexOf("/")).trim();
+            break;
+        case "deadline":
+            newTaskName = userInput.substring(userInput.indexOf(" ")+1, userInput.indexOf("/")).trim();
             String dueDate = userInput.substring(userInput.indexOf("/by")+3).trim();
             newTask = new Deadline(newTaskName, dueDate);
-        } else {
-            String newTaskName = userInput.substring(userInput.indexOf(" ")+1, userInput.indexOf("/")).trim();
+            break;
+        case "event":
+            newTaskName = userInput.substring(userInput.indexOf(" ")+1, userInput.indexOf("/")).trim();
             String start = userInput.substring(userInput.indexOf("/from")+5, userInput.indexOf("/to")).trim();
             String end = userInput.substring(userInput.indexOf("/to")+3).trim();
             newTask = new Event(newTaskName, start, end);
+            break;
+        default:
+            newTaskName = userInput.substring(userInput.indexOf(" ")+1);
+            newTask = new Task(newTaskName);
+            break;
+        }
+        taskList[numTasks] = newTask;
+        numTasks++;
+    }
+
+    public void addSavedTasks(String savedTask) {
+        String[] savedTaskInArray = savedTask.split("\\|");
+        String savedTaskType = savedTaskInArray[0].trim();
+        Boolean savedTaskIsDone = savedTaskInArray[1].trim().equals("X");
+        String savedTaskName = savedTaskInArray[2].trim();
+        Task newTask;
+        switch (savedTaskType) {
+        case "T":
+            newTask = new Todo(savedTaskName, savedTaskIsDone);
+            break;
+        case "D":
+            String savedTaskDueDate = savedTaskInArray[3].trim();
+            newTask = new Deadline(savedTaskName, savedTaskDueDate, savedTaskIsDone);
+            break;
+        case "E":
+            String savedTaskStart = savedTaskInArray[3].trim();
+            String savedTaskEnd = savedTaskInArray[4].trim();
+            newTask = new Event(savedTaskName, savedTaskStart, savedTaskEnd, savedTaskIsDone);
+            break;
+        default:
+            newTask = new Task(savedTaskName, savedTaskIsDone);
         }
         taskList[numTasks] = newTask;
         numTasks++;
