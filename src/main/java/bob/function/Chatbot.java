@@ -1,14 +1,15 @@
 package bob.function;
 import bob.exceptions.*;
+import java.util.ArrayList;
 
 public class Chatbot {
     protected String outputMessage;
-    protected Task[] taskList;
+    protected ArrayList<Task> taskList;
     protected int numTasks;
 
     public Chatbot(String name) {
         outputMessage = "Hello! I'm " + name + ".\nWhat can I do for you?";
-        taskList = new Task[100];
+        taskList = new ArrayList<>(100);
         numTasks = 0;
     }
 
@@ -30,7 +31,7 @@ public class Chatbot {
         case "list":
             outputMessage = "Here are the tasks in your list:";
             for (int i = 0; i < numTasks; i++) {
-                outputMessage += String.format("\n%d. %s", i+1, taskList[i].displayTask());
+                outputMessage += String.format("\n%d. %s", i+1, taskList.get(i).displayTask());
             }
             break;
         case "bye":
@@ -44,13 +45,17 @@ public class Chatbot {
     public void setMessage(String command, int taskIndex) {
         switch(command) {
         case "mark":
-            outputMessage = "Nice! I've marked this task as done:\n\t" + taskList[taskIndex].displayTask();
+            outputMessage = "Nice! I've marked this task as done:\n\t" + taskList.get(taskIndex).displayTask();
             break;
         case "unmark":
-            outputMessage = "OK, I've marked this task as not done yet:\n\t" + taskList[taskIndex].displayTask();
+            outputMessage = "OK, I've marked this task as not done yet:\n\t" + taskList.get(taskIndex).displayTask();
             break;
         case "add task":
-            outputMessage = String.format("Got it. I've added this task:\n\t%s\nNow you have %d tasks in the list.", taskList[taskIndex].displayTask(), numTasks);
+            outputMessage = String.format("Got it. I've added this task:\n\t%s\nNow you have %d tasks in the list.", taskList.get(taskIndex).displayTask(), numTasks);
+            break;
+        case "delete":
+            outputMessage = String.format("Noted. I've removed this task:\n\t%s\nNow you have %d tasks in the list.", taskList.get(taskIndex).displayTask(), numTasks);
+            deleteTask(taskIndex, true);
             break;
         default:
             break;
@@ -60,12 +65,12 @@ public class Chatbot {
     public void setErrorMessage(String errorType) {
         switch(errorType) {
         case "Unknown Command":
-            outputMessage = "I am unable to process this command. The available commands are\n1.list\n2.todo\n3.deadline\n4.event\n5.mark\n6.unmark\n7.mark\n8.bye";
+            outputMessage = "I am unable to process this command. The available commands are\n1.list\n2.todo\n3.deadline\n4.event\n5.mark\n6.unmark\n7.mark\n8.bye\n9.delete";
             break;
         case "Missing Description":
             outputMessage = "The description of the command is missing. Please try again.";
             break;
-        case "bob.function.Task Does Not Exist":
+        case "Task Does Not Exist":
             outputMessage = "The task is not found. Please try again.";
             break;
         case "Already Marked As Done":
@@ -77,10 +82,12 @@ public class Chatbot {
         case "Missing Date Or Time":
             outputMessage = "There are missing dates or times in the description. Please try again.";
             break;
+        default:
+            break;
         }
     }
 
-    public void processInput(String userInput) throws MissingDescriptionException, UnknownCommandException, AlreadyDoneException, AlreadyUndoneException, NullPointerException, StringIndexOutOfBoundsException {
+    public void processInput(String userInput) throws MissingDescriptionException, UnknownCommandException, AlreadyDoneException, AlreadyUndoneException, NullPointerException, StringIndexOutOfBoundsException, ArrayIndexOutOfBoundsException {
         String command = userInput.split(" ")[0].trim().toLowerCase();
         if (command.equals("list")) {
             setMessage("list");
@@ -89,27 +96,33 @@ public class Chatbot {
                 throw new MissingDescriptionException();
             }
             int taskToMark = Integer.parseInt(userInput.trim().split(" ")[1]);
-            if (taskList[taskToMark - 1].getDone()) {
+            if (taskList.get(taskToMark - 1).getDone()) {
                 throw new AlreadyDoneException();
             }
-            taskList[taskToMark - 1].setDone(true);
-            setMessage("mark", taskToMark-1);
+            taskList.get(taskToMark - 1).setDone(true);
+            setMessage("mark", taskToMark - 1);
         } else if (command.equals("unmark")) {
             if (userInput.trim().split(" ").length < 2) {
                 throw new MissingDescriptionException();
             }
             int taskToMark = Integer.parseInt(userInput.trim().split(" ")[1]);
-            if (!taskList[taskToMark - 1].getDone()) {
+            if (!taskList.get(taskToMark - 1).getDone()) {
                 throw new AlreadyUndoneException();
             }
-            taskList[taskToMark-1].setDone(false);
-            setMessage("unmark", taskToMark-1);
+            taskList.get(taskToMark - 1).setDone(false);
+            setMessage("unmark", taskToMark - 1);
         } else if (command.equals("todo") || command.equals("deadline") || command.equals("event")) {
             if (userInput.trim().split(" ").length < 2) {
                 throw new MissingDescriptionException();
             }
             addTask(userInput);
-            setMessage("add task", numTasks-1);
+            setMessage("add task", numTasks - 1);
+        } else if (command.equals("delete")) {
+            if (userInput.trim().split(" ").length < 2) {
+                throw new MissingDescriptionException();
+            }
+            int taskToDelete = Integer.parseInt(userInput.trim().split(" ")[1]);
+            deleteTask(taskToDelete-1, false);
         } else {
             throw new UnknownCommandException();
         }
@@ -130,8 +143,17 @@ public class Chatbot {
             String end = userInput.substring(userInput.indexOf("/to")+3).trim();
             newTask = new Event(newTaskName, start, end);
         }
-        taskList[numTasks] = newTask;
+        taskList.add(numTasks, newTask);
         numTasks++;
+    }
+
+    public void deleteTask(int taskToDelete, Boolean displayed) {
+        if (!displayed) {
+            numTasks--;
+            setMessage("delete", taskToDelete);
+        } else {
+            taskList.remove(taskToDelete);
+        }
     }
 
 }

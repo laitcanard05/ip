@@ -12,14 +12,14 @@ public class Chat {
             try {
                 Bob.processInput(userInput);
             }
-            catch (UnknownCommandException e) {
+            catch (UnknownCommandException | ArrayIndexOutOfBoundsException e) {
                 Bob.setErrorMessage("Unknown Command");
             }
             catch (MissingDescriptionException e) {
                 Bob.setErrorMessage("Missing Description");
             }
             catch (NullPointerException e) {
-                Bob.setErrorMessage("bob.function.Task Does Not Exist");
+                Bob.setErrorMessage("Task Does Not Exist");
             }
             catch (AlreadyDoneException e) {
                 Bob.setErrorMessage("Already Marked As Done");
