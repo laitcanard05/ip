@@ -10,6 +10,11 @@ public class Task {
         this.isDone = false;
     }
 
+    public Task(String name, Boolean isDone) {
+        this.name = name;
+        this.isDone = isDone;
+    }
+
     public String getName() {
         return name;
     }

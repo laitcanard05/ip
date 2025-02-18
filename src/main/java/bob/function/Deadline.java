@@ -8,6 +8,11 @@ public class Deadline extends Task {
         this.dueDate = dueDate;
     }
 
+    Deadline(String name, String dueDate, Boolean isDone){
+        super(name, isDone);
+        this.dueDate = dueDate;
+    }
+
     public String getDueDate() {
         return dueDate;
     }

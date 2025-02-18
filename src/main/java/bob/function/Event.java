@@ -9,6 +9,11 @@ public class Event extends Task {
         this.start = start;
         this.end = end;
     }
+    public Event(String name, String start, String end, Boolean isDone) {
+        super(name, isDone);
+        this.start = start;
+        this.end = end;
+    }
 
     public String getStart() {
         return start;
