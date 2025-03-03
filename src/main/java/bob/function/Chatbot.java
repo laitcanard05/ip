@@ -140,6 +140,7 @@ public class Chatbot {
             }
             addTask(userInput);
             setMessage("add task", numTasks - 1);
+            break;
         case "delete":
             if (userInput.trim().split(" ").length < 2) {
                 throw new MissingDescriptionException();
