@@ -1,28 +1,5 @@
-Hello! I'm Bob!
+Hello! I'm Bob.
 What can I do for you?
-Got it. I've added this task:
-	[T][ ] gea tutorial
-Now you have 1 tasks in your list.
-Got it. I've added this task:
-	[D][ ] cg2023 assignment (by: 10 Feb)
-Now you have 2 tasks in your list.
-Got it. I've added this task:
-	[E][ ] FOC (from: 29 July to: 1 August)
-Now you have 3 tasks in your list.
-Got it. I've added this task:
-	[T][ ] sweep and mop room
-Now you have 4 tasks in your list.
-Here are the tasks in your list:
-   1. [T][ ] gea tutorial
-   2. [D][ ] cg2023 assignment (by: 10 Feb)
-   3. [E][ ] FOC (from: 29 July to: 1 August)
-   4. [T][ ] sweep and mop room
-Nice! I've marked this task as done:
-[T][X] gea tutorial
-Nice! I've marked this task as done:
-[E][X] FOC (from: 29 July to: 1 August)
-Here are the tasks in your list:
-   1. [T][X] gea tutorial
-   2. [D][ ] cg2023 assignment (by: 10 Feb)
-   3. [E][ ] FOC (from: 29 July to: 1 August)
-   4. [T][X] sweep and mop room
+Here the tasks in your list:
+1. [D][ ] return book (by: Saturday)
+Bye! Hope to see you again soon!
