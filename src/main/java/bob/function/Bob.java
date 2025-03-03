@@ -45,6 +45,8 @@ public class Bob {
                 ui.processError("Already Marked As Not Done");
             } catch (StringIndexOutOfBoundsException e) {
                 ui.processError("Missing Date Or Time");
+            } catch (MissingSearchException e) {
+                ui.processError("Missing Search Term");
             } catch (IOException e) {
                 ui.processError("Save Failed");
             }
