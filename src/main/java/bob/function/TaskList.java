@@ -1,10 +1,6 @@
 package bob.function;
 
 import java.util.ArrayList;
-import java.time.LocalDateTime;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public class TaskList {
     protected ArrayList<Task> taskList;
@@ -55,16 +51,8 @@ public class TaskList {
             break;
         case "deadline":
             newTaskName = userInput.substring(userInput.indexOf(" ")+1, userInput.indexOf("/")).trim();
-            String deadline = userInput.substring(userInput.indexOf("/by")+3).trim();
-            if (deadline.contains("-") && deadline.contains(":")) {
-                LocalDateTime dateTime = LocalDateTime.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                deadline = dateTime.format(DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm"));
-            }
-            else if (deadline.contains("-")) {
-                LocalDate date = LocalDate.parse(deadline, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                deadline = date.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
-            }
-            newTask = new Deadline(newTaskName, deadline);
+            String dueDate = userInput.substring(userInput.indexOf("/by")+3).trim();
+            newTask = new Deadline(newTaskName, dueDate);
             break;
         case "event":
             newTaskName = userInput.substring(userInput.indexOf(" ")+1, userInput.indexOf("/")).trim();
