@@ -6,11 +6,24 @@ import java.util.Arrays;
 public class Ui {
     protected String outputMessage;
 
+    /**
+     * Constructs a {@code Ui} instance and initializes a greeting message.
+     * The message is printed immediately upon creation.
+     */
     public Ui() {
         outputMessage = "Hello! I'm Bob" + ".\nWhat can I do for you?";
         printMessage();
     }
 
+    /**
+     * Sets the output message based on the provided command and instruction.
+     * This method formats responses for different user actions, such as listing tasks, marking/unmarking tasks,
+     * adding tasks, deleting tasks or finding tasks.
+     *
+     * @param messageInstruction The processed command string that determines the type of operation
+     * and contains information of the tasks required for the specific command operation.
+     * @param taskList The task list that contains the current tasks.
+     */
     public void setMessage(String messageInstruction, TaskList taskList) {
         int numTasks = taskList.getNumTasks();
         String command = messageInstruction.trim().split(" ")[0];
@@ -52,6 +65,16 @@ public class Ui {
         }
     }
 
+    /**
+     * Sets the output message to different types of error messages based on the provided error type.
+     * If the error type does not match any of the specified cases, a generic error message will be set.
+     *
+     * @param errorType the type of error to process. It must be one of the following values:
+     *                  "Unknown Command", "Missing Description", "Task Does Not Exist",
+     *                  "Already Marked As Done", "Already Marked As Not Done", "Missing Date Or Time",
+     *                  "Save Failed", "IO Exception", "Missing Search Term".
+     *
+     */
     public void processError(String errorType) {
         switch (errorType) {
         case "Unknown Command":
@@ -89,6 +112,10 @@ public class Ui {
         System.out.println(outputMessage);
     }
 
+    /**
+     * Exits the program and prints a farewell message to the console.
+     * This method is called when the program is ready to terminate.
+     */
     public void exit() {
         System.out.println("Bye! Hope to see you again soon!");
     }
