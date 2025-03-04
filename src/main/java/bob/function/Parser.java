@@ -103,10 +103,10 @@ public class Parser {
             if (userInput.trim().split(" ").length < 2) {
                 throw new MissingSearchException();
             }
-            String keyword = userInput.trim().split(" ")[1];
+            String keyword = userInput.substring(userInput.indexOf(" ")+1).toLowerCase();
             messageInstruction = "find ";
             for (int i = 0; i < taskList.getNumTasks(); i++) {
-                if (taskList.getTask(i).getName().contains(keyword)) {
+                if (taskList.getTask(i).getName().toLowerCase().contains(keyword)) {
                     messageInstruction += Integer.toString(i);
                 }
             }
