@@ -81,7 +81,7 @@ Format: `find KEYWORD`
 + Only the name of the task is searched
 
 Examples
-+ `find Read` returns `read book  
++ `find Read` returns `read book`  
   ![Screenshot of Bob's output after inputting `find Read`](img.png)
 
 ### Deleting a task: `delete`
