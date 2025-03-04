@@ -15,6 +15,13 @@ public class Bob {
     private Ui ui;
     private Parser parser = new Parser();
 
+    /**
+     * Constructs a Bob instance with the specified file path for task storage.
+     * Initializes the user interface, storage, and task list.
+     * If an IOException occurs during task loading, an error message is displayed.
+     *
+     * @param filepath The file path of the file where tasks are stored.
+     */
     public Bob(String filepath) {
         ui = new Ui();
         try {
