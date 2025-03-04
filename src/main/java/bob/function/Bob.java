@@ -64,6 +64,6 @@ public class Bob {
     }
 
     public static void main(String[] args) {
-        new Bob("./src/main/java/data/bob.txt").run();
+        new Bob("src/main/java/data/bob.txt").run();
     }
 }

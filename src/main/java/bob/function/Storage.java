@@ -25,7 +25,7 @@ public class Storage {
         this.filepath = filepath;
         savedTasks = new File(filepath);
         if (!savedTasks.exists()) {
-            Files.createDirectories(Paths.get(filepath));
+            Files.createDirectories(Paths.get(filepath).getParent());
             Files.createFile(Paths.get(filepath));
         }
     }

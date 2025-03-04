@@ -1,5 +1,0 @@
-T | X | read book
-D | O | return book | Sunday
-T | O | meet friends
-D | O |  | SUnday
-D | O |  | May 01 2024
