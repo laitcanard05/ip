@@ -78,7 +78,7 @@ public class Ui {
     public void processError(String errorType) {
         switch (errorType) {
         case "Unknown Command":
-            outputMessage = "I am unable to process this command. The available commands are\n1.list\n2.todo\n3.deadline\n4.event\n5.mark\n6.unmark\n7.mark\n8.bye\n9.delete\n10.find";
+            outputMessage = "I am unable to process this command. The available commands are\n1.list\n2.todo\n3.deadline\n4.event\n5.mark\n6.unmark\n7.mark\n8.find\n9.delete\n10.bye";
             break;
         case "Missing Description":
             outputMessage = "The description of the command is missing. Please try again.";
