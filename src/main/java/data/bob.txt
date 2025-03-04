@@ -1,4 +1,5 @@
-T | X | read book
-D | O | return book | Sunday
-E | O | bookfest | Sat | Sun
-T | X | eat lunch
+T | O | read book
+T | O | meet friends
+D | O | watch lecture | Mar 05 2025
+D | X | buy cake | Mar 28 2025 17:00
+D | O | revise for midterms | 00:00
