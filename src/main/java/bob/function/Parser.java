@@ -44,7 +44,8 @@ public class Parser {
      * @throws StringIndexOutOfBoundsException If string manipulation causes an out-of-bounds error due to missing dates or times in the task description when performing addTask().
      * @throws ArrayIndexOutOfBoundsException If an array indexing error occurs while parsing input due to null user input or user input consisting of only whitespaces.
      */
-    public String processInput(String userInput, TaskList taskList) throws MissingDescriptionException, UnknownCommandException, AlreadyDoneException, AlreadyUndoneException, UnfoundTaskException, StringIndexOutOfBoundsException, ArrayIndexOutOfBoundsException {
+
+    public String processInput(String userInput, TaskList taskList) throws MissingDescriptionException, UnknownCommandException, AlreadyDoneException, AlreadyUndoneException, UnfoundTaskException, StringIndexOutOfBoundsException, ArrayIndexOutOfBoundsException, MissingSearchException {
         String command = userInput.split(" ")[0].trim().toLowerCase();
         String messageInstruction;
         switch (command) {
@@ -98,6 +99,18 @@ public class Parser {
             }
             messageInstruction = "delete " + taskList.getTask(taskToDelete - 1).displayTask();
             taskList.deleteTask(taskToDelete-1);
+            break;
+        case "find":
+            if (userInput.trim().split(" ").length < 2) {
+                throw new MissingSearchException();
+            }
+            String keyword = userInput.trim().split(" ")[1];
+            messageInstruction = "find ";
+            for (int i = 0; i < taskList.getNumTasks(); i++) {
+                if (taskList.getTask(i).getName().contains(keyword)) {
+                    messageInstruction += Integer.toString(i);
+                }
+            }
             break;
         default:
             throw new UnknownCommandException();

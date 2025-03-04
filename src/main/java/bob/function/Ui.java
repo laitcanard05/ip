@@ -1,6 +1,7 @@
 package bob.function;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Ui {
     protected String outputMessage;
@@ -49,6 +50,16 @@ public class Ui {
         case "delete":
             outputMessage = String.format("Noted. I've removed this task:\n\t%s\nNow you have %d tasks in the list.", taskDisplay, numTasks);
             break;
+        case "find":
+            String[] matchingTasksIndex = taskDisplay.split("");
+            outputMessage = "Here are the matching tasks in your list:";
+            int count = 1;
+            for (int i = 0; i < matchingTasksIndex.length; i++) {
+                int matchingTaskIndex = Integer.parseInt(matchingTasksIndex[i]);
+                outputMessage += String.format("\n%d. %s", count, taskList.getTask(matchingTaskIndex).displayTask());
+                count++;
+            }
+            break;
         default:
             break;
         }
@@ -67,7 +78,7 @@ public class Ui {
     public void processError(String errorType) {
         switch (errorType) {
         case "Unknown Command":
-            outputMessage = "I am unable to process this command. The available commands are\n1.list\n2.todo\n3.deadline\n4.event\n5.mark\n6.unmark\n7.mark\n8.bye\n9.delete";
+            outputMessage = "I am unable to process this command. The available commands are\n1.list\n2.todo\n3.deadline\n4.event\n5.mark\n6.unmark\n7.mark\n8.bye\n9.delete\n10.find";
             break;
         case "Missing Description":
             outputMessage = "The description of the command is missing. Please try again.";
@@ -90,6 +101,8 @@ public class Ui {
         case "IO Exception":
             outputMessage = "There was some problems opening the file. Please try again.";
             break;
+        case "Missing Search Term":
+            outputMessage = "The keyword to search for is missing. Please try again.";
         default:
             break;
         }
