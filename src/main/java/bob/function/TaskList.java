@@ -3,6 +3,7 @@ package bob.function;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class TaskList {
@@ -44,7 +45,7 @@ public class TaskList {
      *                  For Deadline tasks, "/by" is followed by the due date.
      *                  For Event tasks, "/from" is followed by the start time, and "/to" is followed by the end time.
      */
-    public void addTask(String userInput) {
+    public void addTask(String userInput) throws DateTimeParseException {
         Task newTask;
         String command = userInput.split(" ")[0].trim().toLowerCase();
         switch (command) {
