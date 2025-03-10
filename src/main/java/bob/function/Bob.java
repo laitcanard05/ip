@@ -1,12 +1,9 @@
 package bob.function;
-import java.io.FileNotFoundException;
-import java.nio.file.*;
 import java.util.Scanner;
-import java.io.File;
-import java.io.FileWriter;
 import bob.exceptions.*;
 
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 
 
 public class Bob {
@@ -56,6 +53,8 @@ public class Bob {
                 ui.processError("Missing Search Term");
             } catch (IOException e) {
                 ui.processError("Save Failed");
+            } catch (DateTimeParseException e) {
+                ui.processError("Invalid Format for Date/Time");
             }
             ui.printMessage();
             userInput = in.nextLine();

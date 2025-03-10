@@ -6,14 +6,12 @@ This is a Personal Assistant Chatbot that helps users to keep track of their tas
 
 Prerequisites: JDK 17, update Intellij to the most recent version.
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/bob/function/Bob.java` file, right-click it, and choose `Run Bob.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
+1. Ensure you have Java `17` installed in your Computer.  
+   **Mac users**: Ensure you have the precise JDK version specified [here](https://se-education.org/guides/tutorials/javaInstallationMac.html). 
+2. Download the latest `.jar` file from [here](https://github.com/laitcanard05/ip/releases/tag/v0.1.0).
+3. Copy the file to the folder you want to use as the *home folder* for your Bob. 
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar Bob.jar` command to run the application.  
+   You should see something like the below as the output:
    ```
    Hello I'm Bob.
    What can I do for you?
@@ -22,14 +20,15 @@ Prerequisites: JDK 17, update Intellij to the most recent version.
 
 ## Features
 ### Viewing tasks in list: `list`
-Shows all the tasks in the current task list and their descriptions including the task name, the type of task, and the completion status.
+Shows all the tasks in the current task list and their descriptions including the task name, the type of task, and the completion status.  
 Format: `list`
 
 ### Adding a Todo task: `todo`
 Adds a Todo task into the task list.  
 Format: `todo TASK_NAME`
-+ Adds a Todo task with the specified `TASK_NAME`
-  Examples
++ Adds a Todo task with the specified `TASK_NAME`  
+
+Examples
 + `todo Do laundry` adds a Todo task into the task list with the task name set to be `Do laundry`
 + The completion status is set to not done by default
 

@@ -1,8 +1,5 @@
 package bob.function;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class Ui {
     protected String outputMessage;
 
@@ -103,6 +100,10 @@ public class Ui {
             break;
         case "Missing Search Term":
             outputMessage = "The keyword to search for is missing. Please try again.";
+            break;
+        case "Invalid Format for Date/Time":
+            outputMessage = "The input deadline is in an invalid format. Please input the deadline in one of these formats: yyyy-MM-dd HH:mm, yyyy-MM-dd, HH:mm.";
+            break;
         default:
             break;
         }
